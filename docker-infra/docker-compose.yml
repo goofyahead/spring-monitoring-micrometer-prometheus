@@ -1,0 +1,20 @@
+version: '2'
+
+services:
+  alertmanager:
+    image: bitnami/alertmanager:latest
+    volumes:
+      - ./alertmanager/slackalert.yml:/opt/bitnami/alertmanager/conf/config.yml
+    ports:
+      - 9093:9093
+    environment:
+      - SLACK_API_CREDENTIALS_URL
+
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./prometheus/config:/etc/prometheus/
+    ports:
+      - 9090:9090
+    environment:
+      - BEARER_TOKEN

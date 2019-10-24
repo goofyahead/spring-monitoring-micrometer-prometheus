@@ -1,0 +1,23 @@
+global:
+  slack_api_url: ${SLACK_API_CREDENTIALS_URL}
+
+templates:
+  - '/etc/alertmanager/template/*.tmpl'
+
+route:
+  group_by: ['instance', 'severity']
+  group_wait: 30s
+  group_interval: 5m
+  repeat_interval: 5m
+  routes:
+    - match:
+        alertname: HighFailureRate
+  receiver: 'alert-receiver'
+
+receivers:
+  - name: 'alert-receiver'
+    slack_configs:
+      - username: 'Mawani-alerts'
+        title: 'High error rate'
+        channel: '#test-alertmanager'
+        text: "<!channel>\n :rotating_light: Alert triggered :rotating_light: \n {{ .CommonAnnotations.summary }}\n {{ .CommonAnnotations.description }}"

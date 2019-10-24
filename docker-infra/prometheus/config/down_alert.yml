@@ -1,0 +1,23 @@
+groups:
+  - name: Health_alert
+    rules:
+      # Alert for any instance that is unreachable for >5 minutes.
+      - alert: InstanceDown
+        expr: up == 0
+        for: 1m
+        labels:
+          severity: page
+        annotations:
+          summary: "Instance {{ $labels.instance }} down"
+          description: "{{ $labels.instance }} has been down for more than 5 minutes."
+
+      # Alert for any instance that is unreachable for >5 minutes.
+      - alert: HighFailureRate
+        expr: rate(http_server_requests_seconds_count{status=~"5.*"}[1m]) > .1 * rate(http_server_requests_seconds_count[1m])
+        for: 5s
+        labels:
+          severity: Error
+          env: Prod
+        annotations:
+          summary: "Service:`{{ $labels.service }}` in `Prod | UK-VBS` 5XX errors > 10%"
+          description: "Instance:`{{ $labels.instance }}` for endpoint:`{{ $labels.uri }}` has a high amount of 5XX errors for more than 5 secs."

@@ -1,6 +1,5 @@
 package app.main.controller;
 
-import io.micrometer.core.annotation.Timed;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -11,7 +10,6 @@ import java.util.Random;
 @RestController
 public class MonitoredController {
 
-    @Timed
     @GetMapping("/myFood")
     public String getFood() throws Exception {
         List<String> food = Arrays.asList("potato", "lettuce", "tomato", "brick");
