@@ -19,7 +19,7 @@ alerting:
 scrape_configs:
   - job_name: 'eureka-server'
     metrics_path: '/actuator/prometheus'
-    bearer_token: ${BEARER_TOKEN}
+    bearer_token: 'XXX'
     consul_sd_configs:
       - server: 'host.docker.internal:8761'
         services: []
